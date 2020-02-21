@@ -1,0 +1,52 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: a
+    image: plugins/volume-cache
+    settings:
+      file: cache.tar
+      restore: true
+      mount:
+        - ./bundle_cache
+    volumes:
+      - name: cache
+        path: /cache
+
+  - name: b
+    depends_on:
+      - a
+    image: cypress/included:3.8.1
+    commands:
+      - mkdir -p ./bundle_cache
+      - echo 1 >> ./bundle_cache/1
+      - cat ./bundle_cache/1
+
+  - name: c
+    image: plugins/volume-cache
+    depends_on:
+      - b
+    settings:
+      file: cache.tar
+      rebuild: true
+      mount:
+        - ./bundle_cache
+    volumes:
+      - name: cache
+        path: /cache
+
+volumes:
+  - name: cache
+    host:
+      path: /var/lib/cache
+
+trigger:
+  event:
+    exclude:
+      - pull_request
