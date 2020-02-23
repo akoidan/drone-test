@@ -22,7 +22,7 @@ steps:
   - name: b
     depends_on:
       - a
-    image: cypress/included:3.8.1
+    image: alpine:3.11.3
     commands:
       - mkdir -p ./bundle_cache
       - echo 1 >> ./bundle_cache/1
@@ -44,4 +44,9 @@ steps:
 volumes:
   - name: cache
     host:
-      path: /var/lib/cache
+      path: /tmp/cache
+
+trigger:
+  event:
+    exclude:
+      - pull_request
