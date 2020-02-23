@@ -41,10 +41,6 @@ steps:
       - name: cache
         path: /cache
 
-volumes:
-  - name: cache
-    host:
-      path: /tmp/cache
 
 trigger:
   event:
