@@ -1,12 +1,15 @@
 ---
 kind: pipeline
-type: exec
+type: docker
 name: default
 
 
 platform:
   os: linux
   arch: arm64
+
+node:
+  runner: drone-runner-1
 
 steps:
   - name: greeting
