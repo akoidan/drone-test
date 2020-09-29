@@ -10,6 +10,7 @@ platform:
 
 steps:
   - name: greeting
+    image: alpine
     commands:
       - echo hello world
 trigger:
